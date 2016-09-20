@@ -9,3 +9,10 @@ juke.controller('PlaylistCtrl', function($scope, PlaylistFactory) {
 		});
 	};
 });
+
+juke.controller('PlaylistsCtrl', function($scope, PlaylistFactory) {
+	PlaylistFactory.fetchAll()
+	.then(function(playlists) {
+		$scope.playlists = playlists;
+	});
+});
