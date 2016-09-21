@@ -5,3 +5,16 @@ juke.config(function($stateProvider) {
 		controller: 'PlaylistCtrl'
 	});
 });
+
+juke.config(function($stateProvider) {
+	$stateProvider.state('singlePlaylist', {
+		url: '/playlists/:id',
+		templateUrl: '/js/playlist/singlePlaylist.html',
+		controller: 'singlePlaylistCtrl',
+		resolve: {
+			thePlaylist: function($stateParams, PlaylistFactory) {
+				return PlaylistFactory.fetchById($stateParams.id)
+			}
+		}
+	});
+});

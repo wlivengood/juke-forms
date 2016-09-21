@@ -1,4 +1,4 @@
-juke.factory('PlaylistFactory', function ($http) {
+juke.factory('PlaylistFactory', function ($http, SongFactory) {
 
   var cachedPlaylists = [];
 
@@ -20,6 +20,24 @@ juke.factory('PlaylistFactory', function ($http) {
       return playlist;
     });
   };
+
+  PlaylistFactory.fetchById = function(id) {
+    return $http.get('/api/playlists/' + id)
+    .then(function(response) {
+      return response.data;
+    })
+    .then(function(playlist) {
+      playlist.songs = playlist.songs.map(SongFactory.convert);
+      return playlist;
+    });
+  };
+
+  PlaylistFactory.addSong = function(song, playlist) {
+    return $http.post('/api/playlists/' + playlist.id + '/songs', {song: song})
+    .then(function(song) {
+      return song;
+    })
+  }
 
   return PlaylistFactory;
 
